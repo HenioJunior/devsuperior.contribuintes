@@ -37,15 +37,37 @@ public class TaxPayer {
     }
 
     public double salaryTax() {
-        if (salaryIncome < 3000.00) {
+        double monthSalary = salaryIncome / 12;
+
+        if (monthSalary < 3000.00) {
             return 0;
-        } else if (salaryIncome < 5000.00) {
+        } else if (monthSalary < 5000.00) {
             return salaryIncome * 10/100;
         }
         return salaryIncome * 20/100;
     }
 
+    public double servicesTax() {
+        return servicesIncome * 15/100;
+    }
+
+    public double capitalTax() {
+        return capitalIncome * 20/100;
+    }
+
     public double grossTax() {
-        return salaryTax();
+        return salaryTax() + servicesTax() + capitalTax();
+    }
+
+    public double taxRebate() {
+        double healthAndEducationSpending = heathSpending + educationSpending;
+        if (healthAndEducationSpending / grossTax() > 0.30) {
+            return grossTax() * 30/100 ;
+        }
+        return healthAndEducationSpending;
+    }
+
+    public double netTask() {
+        return grossTax() - taxRebate();
     }
 }
